@@ -20,7 +20,10 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# Chạy benchmark (với mock data)
+# Chạy benchmark với OpenAI API
+# Cấu hình tối thiểu trong .env:
+# OPENAI_API_KEY=your_api_key
+# OPENAI_MODEL=gpt-4o-mini
 python run_benchmark.py --dataset data/hotpot_mini.json --out-dir outputs/sample_run
 
 # Chạy chấm điểm tự động

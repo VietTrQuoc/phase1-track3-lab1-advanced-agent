@@ -7,7 +7,7 @@ FAILURE_MODE_BY_QID = {"hp2": "incomplete_multi_hop", "hp4": "wrong_final_answer
 
 def actor_answer(example: QAExample, attempt_id: int, agent_type: str, reflection_memory: list[str]) -> str:
     if example.qid not in FIRST_ATTEMPT_WRONG:
-        return example.gold_answer
+        return example.gold_answer  
     if agent_type == "react":
         return FIRST_ATTEMPT_WRONG[example.qid]
     if attempt_id == 1 and not reflection_memory:
@@ -23,4 +23,9 @@ def evaluator(example: QAExample, answer: str) -> JudgeResult:
 
 def reflector(example: QAExample, attempt_id: int, judge: JudgeResult) -> ReflectionEntry:
     strategy = "Do the second hop explicitly: birthplace city -> river through that city." if example.qid == "hp2" else "Verify the final entity against the second paragraph before answering."
-    return ReflectionEntry(attempt_id=attempt_id, failure_reason=judge.reason, lesson="A partial first-hop answer is not enough; the final answer must complete all hops.", next_strategy=strategy)
+    return ReflectionEntry(
+        attempt_id=attempt_id,
+        failure_reason=judge.reason,
+        lesson="A partial first-hop answer is not enough; the final answer must complete all hops.",
+        strategy=strategy,
+    )
